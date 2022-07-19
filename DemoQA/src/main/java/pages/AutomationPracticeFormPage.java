@@ -1,11 +1,8 @@
 package pages;
 
-import java.util.List;
-
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.Select;
 
 public class AutomationPracticeFormPage extends Page {
 
@@ -15,12 +12,22 @@ public class AutomationPracticeFormPage extends Page {
 	By radioGenderRadioMale = By.xpath("//*[@for='gender-radio-1']");
 	By radioGenderRadioFemale = By.xpath("//*[@for='gender-radio-2']");
 	By radioGenderRadioOther = By.xpath("//*[@for='gender-radio-3']");
-	By btnSubmit = By.id("submit");
 	By txtMobile = By.id("userNumber");
 	By btnDateOfBirth = By.id("dateOfBirthInput");
+	By btnSubjects = By.id("subjectsContainer");
+	By inputSubjects = By.id("subjectsInput");
+	By checkboxSports = By.xpath("//label[contains(text(),'Sports')]");
+	By checkboxReading = By.xpath("//label[contains(text(),'Reading')]");
+	By checkboxMusic = By.xpath("//label[contains(text(),'Music')]");
+	By ddYear = By.className("react-datepicker__year-select");
+	By ddMonth = By.className("react-datepicker__month-select");
+	By btnDay = By.xpath("//div[contains(text(),'16')]");
 	By btnUploadImg = By.id("uploadPicture");
-	By btnState = By.id("state");
-	By btnCity = By.id("city");
+	By ddState = By.id("state");
+	By inputState = By.id("react-select-3-input");
+	By ddCity = By.id("city");
+	By inputCity = By.id("react-select-4-input");
+	By btnSubmit = By.id("submit");
 
 	public AutomationPracticeFormPage(WebDriver dr) {
 		super(dr);
@@ -39,21 +46,20 @@ public class AutomationPracticeFormPage extends Page {
 		driverWeb.findElement(txtUserEmail).sendKeys(userEmail);
 	}
 
-	public void clickGenderRadioMale() {
-		driverWeb.findElement(radioGenderRadioMale).click();
+	public By getGenderXpath(String gender) {
+		By result = null;
+		if (gender.equalsIgnoreCase("Male")) {
+			result = radioGenderRadioMale;
+		} else if (gender.equalsIgnoreCase("Female")) {
+			result = radioGenderRadioFemale;
+		} else {
+			result = radioGenderRadioOther;
+		}
+		return result;
 	}
 
-	public String getTextGenderRadioMale() {
-		String textGenderRadioMale = driverWeb.findElement(radioGenderRadioMale).getText();
-		return textGenderRadioMale;
-	}
-
-	public void clickGenderRadioFemale() {
-		driverWeb.findElement(radioGenderRadioFemale).click();
-	}
-
-	public void clickGenderRadioOther() {
-		driverWeb.findElement(radioGenderRadioOther).click();
+	public void inputGender(String gender) {
+		driverWeb.findElement(getGenderXpath(gender)).click();
 	}
 
 	public void inputMobile(String mobile) {
@@ -74,45 +80,65 @@ public class AutomationPracticeFormPage extends Page {
 //		System.out.println("xcbmxzbc                  ");
 //		System.out.println(date);
 //		dates.get(5).click();  // Click vào phần tử thứ 5 ( Tức ngày 6 tháng...)
-//			
+//
 //	}
-	
-	public String selectDateOfBirth() {
+
+	public void inputDateOfBirth(String inputDate) {
+		inputDate = inputDate.replace(",", " ");
+		String[] arrayDate = inputDate.split(" ");
+		String day = new String(arrayDate[0]);
+		String month = new String(arrayDate[1]);
+		String year = new String(arrayDate[2]);
 		driverWeb.findElement(btnDateOfBirth).click();
-		Select selectYearBtn = new Select(driverWeb.findElement(By.className("react-datepicker__year-select")));
-		selectYearBtn.selectByVisibleText("1996");
-		Select selectMonthBtn = new Select(driverWeb.findElement(By.className("react-datepicker__month-select")));
-		selectMonthBtn.selectByVisibleText("June");
-		String day  = driverWeb.findElement(By.xpath("//div[contains(text(),'16')]")).getText();
-		driverWeb.findElement(By.xpath("//div[contains(text(),'16')]")).click();
-		String date = day + " June,1996" ;
-		return date;
+		selectElemetFromDropdown(ddYear, year);
+		selectElemetFromDropdown(ddMonth, month);
+		String dayXpath = String.format("//div[contains(text(),'%s')]", day);
+		driverWeb.findElement(By.xpath(dayXpath)).click();
 	}
 	
-	public String selectState() {
-		driverWeb.findElement(btnState).click();
-		driverWeb.findElement(By.xpath("//div[@id='react-select-3-option-0']")).click();
-		driverWeb.findElement(By.id("currentAddress")).click();
-		return driverWeb.findElement(btnState).getText();
-	}
-	
-	public String selectCity() {
-		driverWeb.findElement(btnCity).click();
-		driverWeb.findElement(By.xpath("//div[@id='react-select-4-option-0']")).click();
-		driverWeb.findElement(By.id("currentAddress")).click();
-		return driverWeb.findElement(btnCity).getText();
-	}
-	
-	
-	public By getStateBtn() {
-		return btnState;
-	}
-
-	public By getElementuploadImgBtn() {
+	public By getBtnUploadImg() {
 		return btnUploadImg;
+	} 
+	
+	public void inputSubjects(String subjects) {
+		driverWeb.findElement(btnSubjects).click();
+		driverWeb.findElement(inputSubjects).sendKeys(subjects);
+		driverWeb.findElement(inputSubjects).sendKeys(Keys.ENTER);
+	}
+	
+	public By getHobbiesXpath(String hobbie) {
+		By result = null;
+		if (hobbie.equalsIgnoreCase("Sports")) {
+			result = checkboxSports;
+		} else if (hobbie.equalsIgnoreCase("Reading")) {
+			result = checkboxReading;
+		} else if (hobbie.equalsIgnoreCase("Music")) {
+			result = checkboxMusic;
+		}
+		return result;
 	}
 
-	public By getElementSubmitBtn() {
+	public void inputHobbies(String hobbie) {
+		driverWeb.findElement(getHobbiesXpath(hobbie)).click();
+	}
+
+	public void inputState(String state) {
+		driverWeb.findElement(ddState).click();
+		driverWeb.findElement(inputState).sendKeys(state);
+		driverWeb.findElement(inputState).sendKeys(Keys.ENTER);
+	}
+
+	public void inputCity(String city) {
+		driverWeb.findElement(ddCity).click();
+		driverWeb.findElement(inputCity).sendKeys(city);
+		driverWeb.findElement(inputCity).sendKeys(Keys.ENTER);
+	}
+
+	public By getDdState() {
+		return ddState;
+	}
+
+	public By getBtnSubmit() {
 		return btnSubmit;
 	}
 

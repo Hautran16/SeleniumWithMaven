@@ -11,6 +11,8 @@ public class ThanksForSubmittingPage extends Page {
 	By labelGender = By.xpath("//tbody/tr[3]/td[2]");
 	By labelMobile = By.xpath("//tbody/tr[4]/td[2]");
 	By lableDateOfBirth = By.xpath("//tbody/tr[5]/td[2]");
+	By lableSubjects = By.xpath("//tbody/tr[6]/td[2]");
+	By lableHobbies = By.xpath("//tbody/tr[7]/td[2]");
 	By lableStateAndCity = By.xpath("//tbody/tr[10]/td[2]");
 	
 	public ThanksForSubmittingPage(WebDriver dr) {
@@ -40,6 +42,16 @@ public class ThanksForSubmittingPage extends Page {
 	
 	public String getTextDateOfBirth() {
 		String textDateOfBirth = driverWeb.findElement(lableDateOfBirth).getText();
+		return textDateOfBirth;
+	}
+	
+	public String getTextSubjects() {
+		String textDateOfBirth = driverWeb.findElement(lableSubjects).getText();
+		return textDateOfBirth;
+	}
+	
+	public String getTextHobbies() {
+		String textDateOfBirth = driverWeb.findElement(lableHobbies).getText();
 		return textDateOfBirth;
 	}
 	

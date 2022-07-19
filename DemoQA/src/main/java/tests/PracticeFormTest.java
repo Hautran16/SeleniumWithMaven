@@ -12,21 +12,30 @@ import pages.HomePage;
 import pages.ThanksForSubmittingPage;
 
 public class PracticeFormTest {
-	
+
 	String inputFirstName = "abc";
 	String inputLastName = "abc";
 	String inputUserEmail = "abc@abc.abc";
+	String inputGender = "Female";
 	String inputMobile = "0977987544";
-	
+	String inputDate = "16 June,1996";
+	String inputSubjectsEnglish = "English";
+	String inputSubjectsMath = "Maths";
+	String inputHobbieSports = "Sports";
+	String inputHobbieReading = "Reading";
+	String inputImagePath = "D:\\AutomationTest\\04Img\\landscape-photography_1645-t.jpg";
+
+	String inputState = "NCR";
+	String inputCity = "Delhi";
 	TestBasic testBasic = new TestBasic();
-	
-	//Contains all test cases which are test for Practice Form
-	//TC01: [PracticeForm] Submit data successfully
+
+	// Contains all test cases which are test for Practice Form
+	// TC01: [PracticeForm] Submit data successfully
 	@BeforeMethod
 	public void openWebsite() {
 		testBasic.openWebsite("https://demoqa.com/");
 	}
-	
+
 //	@AfterMethod
 //	public void closeBrowser() {
 //		testBasic.driver.quit();
@@ -42,27 +51,28 @@ public class PracticeFormTest {
 		automationPracticeFormPage.inputFirstName(inputFirstName);
 		automationPracticeFormPage.inputLastName(inputLastName);
 		automationPracticeFormPage.inputUserEmail(inputUserEmail);
-		automationPracticeFormPage.clickGenderRadioMale();
-		String textGenderRadioMale = automationPracticeFormPage.getTextGenderRadioMale();
+		automationPracticeFormPage.inputGender(inputGender);
 		automationPracticeFormPage.inputMobile(inputMobile);
-		automationPracticeFormPage.uploadImg(automationPracticeFormPage.getElementuploadImgBtn(),"D:\\AutomationTest\\04Img\\landscape-photography_1645-t.jpg");
-		automationPracticeFormPage.selectDateOfBirth();
-		String dateOfBirth = automationPracticeFormPage.selectDateOfBirth();
-		testBasic.setSizebrowser(); 
-		testBasic.srollToElement(automationPracticeFormPage.getStateBtn());
-		automationPracticeFormPage.selectState();
-		String state = automationPracticeFormPage.selectState();
-		automationPracticeFormPage.selectCity();
-		String city = automationPracticeFormPage.selectCity();
-		String stateAndCity = state + " " + city;
-		testBasic.srollToElement(automationPracticeFormPage.getElementSubmitBtn());
+		automationPracticeFormPage.uploadImg(automationPracticeFormPage.getBtnUploadImg(), inputImagePath);
+		automationPracticeFormPage.inputDateOfBirth(inputDate);
+		testBasic.setSizebrowser();
+		testBasic.srollToElement(automationPracticeFormPage.getDdState());
+		automationPracticeFormPage.inputSubjects(inputSubjectsEnglish);
+		automationPracticeFormPage.inputSubjects(inputSubjectsMath);
+		automationPracticeFormPage.inputHobbies(inputHobbieSports);
+		automationPracticeFormPage.inputHobbies(inputHobbieReading);
+		automationPracticeFormPage.inputState(inputState);
+		automationPracticeFormPage.inputCity(inputCity);
+		testBasic.srollToElement(automationPracticeFormPage.getBtnSubmit());
 		ThanksForSubmittingPage thanksForSubmittingPage = automationPracticeFormPage.clickSubmit();
-		automationPracticeFormPage.verifyTextPresent(thanksForSubmittingPage.getTextStudentName(), inputFirstName + " " + inputLastName);
+		automationPracticeFormPage.verifyTextPresent(thanksForSubmittingPage.getTextStudentName(),inputFirstName + " " + inputLastName);
 		automationPracticeFormPage.verifyTextPresent(thanksForSubmittingPage.getTextStudentEmail(), inputUserEmail);
-		automationPracticeFormPage.verifyTextPresent(thanksForSubmittingPage.getTextStudentGender(), textGenderRadioMale);
+		automationPracticeFormPage.verifyTextPresent(thanksForSubmittingPage.getTextStudentGender(), inputGender);
 		automationPracticeFormPage.verifyTextPresent(thanksForSubmittingPage.getTextMobile(), inputMobile);
-		automationPracticeFormPage.verifyTextPresent(thanksForSubmittingPage.getTextDateOfBirth(), dateOfBirth );
-		automationPracticeFormPage.verifyTextPresent(thanksForSubmittingPage.getTextStateAndCity(), stateAndCity );
-	} 
+		automationPracticeFormPage.verifyTextPresent(thanksForSubmittingPage.getTextDateOfBirth(), inputDate);
+		automationPracticeFormPage.verifyTextPresent(thanksForSubmittingPage.getTextSubjects(), inputSubjectsEnglish + ", " + inputSubjectsMath);
+		automationPracticeFormPage.verifyTextPresent(thanksForSubmittingPage.getTextHobbies(), inputHobbieSports + ", " + inputHobbieReading);
+		automationPracticeFormPage.verifyTextPresent(thanksForSubmittingPage.getTextStateAndCity(), inputState + " " + inputCity );
+	}
 
 }

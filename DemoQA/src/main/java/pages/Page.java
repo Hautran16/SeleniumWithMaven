@@ -4,6 +4,7 @@ import static org.testng.Assert.assertEquals;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.Select;
 
 public class Page {
 	protected WebDriver driverWeb;
@@ -23,6 +24,11 @@ public class Page {
 
 	public void uploadImg(By element, String imageFolderPath) {
 		driverWeb.findElement(element).sendKeys(imageFolderPath);
+	}
+	
+	public void selectElemetFromDropdown(By element, String textInput) {
+		Select selectOption = new Select(driverWeb.findElement(element));
+		selectOption.selectByVisibleText(textInput);
 	}
 }
  
